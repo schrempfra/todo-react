@@ -8,18 +8,21 @@ function App() {
       title: "Sam's Birthday",
       photo: "https://picsum.photos/200/300?random=203",
       isComplete: false,
+      isEditing: false,
     },
     {
       id: 2,
       title: "Go Grocery",
       photo: "https://picsum.photos/200/300?random=2",
       isComplete: true,
+      isEditing: false,
     },
     {
       id: 3,
       title: "Buy a new book",
       photo: "https://picsum.photos/200/300?random=23",
       isComplete: false,
+      isEditing: false,
     }
   ]);
 
@@ -65,7 +68,51 @@ function App() {
   {
     const updateTodos = todos.map(todo => {
         if(todo.id === id) {
-          todo.isComplete = !todo.isComplete
+          todo.isComplete = !todo.isComplete;
+        }
+
+        return todo;
+    })
+
+    setTodos(updateTodos);
+  }
+
+  function markAsEditing(id)
+  {
+    const updateTodos = todos.map(todo => {
+        if(todo.id === id) {
+          todo.isEditing = true;
+        }
+
+        return todo;
+    })
+
+    setTodos(updateTodos);
+  }
+
+  function updateTodo(event, id)
+  {
+    const updateTodos = todos.map(todo => {
+        if(todo.id === id) {
+          if(event.target.value.trim().length === 0) {
+            todo.isEditing = false;
+            return todo;
+          }
+          todo.title = event.target.value;
+          todo.isEditing = false;
+        }
+
+        return todo;
+    })
+
+    setTodos(updateTodos);
+  }
+
+  function cancelEdit(event, id)
+  {
+    const updateTodos = todos.map(todo => {
+        if(todo.id === id) {
+          todo.isEditing = false;
         }
 
         return todo;
@@ -94,11 +141,23 @@ function App() {
                 <input checked={todo.isComplete ? true : false} type="checkbox" onChange={() => completeTodo(todo.id)} className="rounded" />
                   <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={ todo.photo } alt="" />
                   <div>
-                    <p 
+                    { !todo.isEditing ? 
+                    <p onDoubleClick={() => markAsEditing(todo.id)}
                       className={`text-sm font-semibold leading-6 text-gray-900 ${todo.isComplete ?
                        'line-through' : ''}`}>
                       { todo.title }
-                    </p> 
+                    </p>
+                    : 
+                      <input type="text" onBlur={(event) => updateTodo(event, todo.id)}
+                      onKeyDown={event => {
+                        if(event.key === 'Enter') {
+                          updateTodo(event, todo.id);
+                        } else if(event.key === 'Escape') {
+                          cancelEdit(event, todo.id);
+                        }
+                      }}
+                      defaultValue={todo.title} autoFocus className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
+                    }
                   </div>
                 </div>
                 <div className="flex items-center">
