@@ -1,7 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      title: "Sam's Birthday",
+      isCompleted: false,
+    },
+    {
+      id: 2,
+      title: "Sam's Birthday",
+      isCompleted: false,
+    },
+    {
+      id: 3,
+      title: "Sam's Birthday",
+      isCompleted: false,
+    }
+  ]);
+
   return (
     <div className="App">
       <header className="App-header">
