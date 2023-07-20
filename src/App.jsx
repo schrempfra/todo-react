@@ -108,7 +108,7 @@ function App() {
     setTodos(updateTodos);
   }
 
-  function cancelEdit(event, id)
+  function cancelEdit(id)
   {
     const updateTodos = todos.map(todo => {
         if(todo.id === id) {
@@ -153,7 +153,7 @@ function App() {
                         if(event.key === 'Enter') {
                           updateTodo(event, todo.id);
                         } else if(event.key === 'Escape') {
-                          cancelEdit(event, todo.id);
+                          cancelEdit(todo.id);
                         }
                       }}
                       defaultValue={todo.title} autoFocus className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
