@@ -7,19 +7,19 @@ function App() {
       id: 1,
       title: "Sam's Birthday",
       photo: "https://picsum.photos/200/300?random=203",
-      isCompleted: false,
+      isComplete: false,
     },
     {
       id: 2,
       title: "Go Grocery",
       photo: "https://picsum.photos/200/300?random=2",
-      isCompleted: false,
+      isComplete: true,
     },
     {
       id: 3,
       title: "Buy a new book",
       photo: "https://picsum.photos/200/300?random=23",
-      isCompleted: false,
+      isComplete: false,
     }
   ]);
 
@@ -61,6 +61,19 @@ function App() {
     setIdForTodo(prevIdForTodo => prevIdForTodo + 1);
   }
 
+  function completeTodo(id)
+  {
+    const updateTodos = todos.map(todo => {
+        if(todo.id === id) {
+          todo.isComplete = !todo.isComplete
+        }
+
+        return todo;
+    })
+
+    setTodos(updateTodos);
+  }
+
   return (
     <div className="bg-emerald-50 h-screen pt-40">
       <div className="max-w-2xl mx-auto bg-white shadow-md rounded-md p-10">
@@ -77,10 +90,15 @@ function App() {
           <ul className="divide-y divide-gray-100">
             {todos.map((todo, index) => (
               <li key={todo.id} className="flex justify-between gap-x-6 py-5">
-                <div className="flex gap-x-4">
+                <div className="flex gap-x-4 items-center">
+                <input checked={todo.isComplete ? true : false} type="checkbox" onChange={() => completeTodo(todo.id)} className="rounded" />
                   <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={ todo.photo } alt="" />
-                  <div className="min-w-0 flex items-center">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">{ todo.title }</p> 
+                  <div>
+                    <p 
+                      className={`text-sm font-semibold leading-6 text-gray-900 ${todo.isComplete ?
+                       'line-through' : ''}`}>
+                      { todo.title }
+                    </p> 
                   </div>
                 </div>
                 <div className="flex items-center">
