@@ -3,9 +3,12 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import { useState } from 'react';
 import './App.css';
+import useLocalStorage from './hooks/useLocalStorage';
 
 function App() {
-  const [todos, setTodos] = useState([
+  const [todos, setTodos] = useLocalStorage('todos', []);
+
+  /* const [todos, setTodos] = useState([
     {
       id: 1,
       title: "Sam's Birthday",
@@ -27,9 +30,10 @@ function App() {
       isComplete: false,
       isEditing: false,
     }
-  ]);
+  ]); */
 
-  const [idForTodo, setIdForTodo] = useState(4);
+  /* const [idForTodo, setIdForTodo] = useState(4); */
+  const [idForTodo, setIdForTodo] = useLocalStorage('idForTodo', 1);
 
   function deleteTodo(id)
   {
