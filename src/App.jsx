@@ -17,7 +17,7 @@ function App() {
       id: 2,
       title: "Go Grocery",
       photo: "https://picsum.photos/200/300?random=2",
-      isComplete: true,
+      isComplete: false,
       isEditing: false,
     },
     {
