@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 TodoClearCompleted.propTypes = {
     clearCompleted: PropTypes.func.isRequired,
-}
+};
 
 export default function TodoClearCompleted(props) {
   return (

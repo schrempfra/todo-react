@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 TodoCompleteAll.propTypes = {
-    completeTodos: PropTypes.func.isRequired,
-}
+    completeAllTodos: PropTypes.func.isRequired,
+};
 
 export default function TodoCompleteAll(props) {
   return (

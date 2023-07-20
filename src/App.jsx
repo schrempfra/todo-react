@@ -129,6 +129,17 @@ function App() {
     setTodos(updateTodos);
   }
 
+  function todosFiltered(filter) 
+  {
+    if (filter === 'all') {
+      return todos;
+    } else if(filter === 'active') {
+      return todos.filter(todo => !todo.isComplete);
+    } else if(filter === 'completed') {
+      return todos.filter(todo => todo.isComplete);
+    }
+  }
+
   return (
     <div className="bg-emerald-50 h-screen pt-40">
       <div className="max-w-2xl mx-auto bg-white shadow-md rounded-md p-10">
@@ -148,6 +159,7 @@ function App() {
               remaining={remaining}
               clearCompleted={clearCompleted}
               completeAllTodos={completeAllTodos}
+              todosFiltered={todosFiltered}
               />
           ) : (
             <NoTodos />
