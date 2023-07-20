@@ -1,3 +1,6 @@
+import NoTodos from './components/NoTodos';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
 import { useState } from 'react';
 import './App.css';
 
@@ -26,41 +29,25 @@ function App() {
     }
   ]);
 
-  const [todoInput, setTodoInput] = useState('');
-  const [idForTodo, setIdForTodo] = useState('');
+  const [idForTodo, setIdForTodo] = useState(4);
 
   function deleteTodo(id)
   {
     setTodos([...todos].filter(todo => todo.id !== id));
   }
 
-
-  function handleInput(event)
+  function addTodo(todo) 
   {
-    setTodoInput(
-      event.target.value
-    );
-  }
-
-  function addTodo(event) 
-  {
-    event.preventDefault();
-
-    if(todoInput.trim().length === 0) {
-      return;
-    }
-
     setTodos([
       ...todos,
       {
         id: idForTodo,
-        title: todoInput,
+        title: todo,
         photo: "https://picsum.photos/200/300?random=",
         isCompleted: false,
       }
     ]);
 
-    setTodoInput('');
     setIdForTodo(prevIdForTodo => prevIdForTodo + 1);
   }
 
@@ -127,49 +114,20 @@ function App() {
         <div className="w-full">
           <h2 className="text-2xl font-bold mb-5">Todo App</h2>
 
-          <form action="#" onSubmit={addTodo}>
-            <div>
-              <label for="todo" class="sr-only">What you wanna do next?</label>
-              <input type="text" value={todoInput} onChange={handleInput} id="todo" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" placeholder="What you wanna do next?" />
-            </div>
-          </form>
-
-          <ul className="divide-y divide-gray-100">
-            {todos.map((todo, index) => (
-              <li key={todo.id} className="flex justify-between gap-x-6 py-5">
-                <div className="flex gap-x-4 items-center">
-                <input checked={todo.isComplete ? true : false} type="checkbox" onChange={() => completeTodo(todo.id)} className="rounded" />
-                  <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={ todo.photo } alt="" />
-                  <div>
-                    { !todo.isEditing ? 
-                    <p onDoubleClick={() => markAsEditing(todo.id)}
-                      className={`text-sm font-semibold leading-6 text-gray-900 ${todo.isComplete ?
-                       'line-through' : ''}`}>
-                      { todo.title }
-                    </p>
-                    : 
-                      <input type="text" onBlur={(event) => updateTodo(event, todo.id)}
-                      onKeyDown={event => {
-                        if(event.key === 'Enter') {
-                          updateTodo(event, todo.id);
-                        } else if(event.key === 'Escape') {
-                          cancelEdit(todo.id);
-                        }
-                      }}
-                      defaultValue={todo.title} autoFocus className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
-                    }
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <span className="cursor-pointer" onClick={() => deleteTodo(todo.id)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <TodoForm addTodo={addTodo} />
+          
+          {todos.length > 0 ? (
+            <TodoList 
+              todos={todos}
+              completeTodo={completeTodo}
+              markAsEditing={markAsEditing}
+              updateTodo={updateTodo}
+              cancelEdit={cancelEdit}
+              deleteTodo={deleteTodo}
+              />
+          ) : (
+            <NoTodos />
+          )}
         </div>
       </div>
     </div>
