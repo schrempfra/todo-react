@@ -108,6 +108,27 @@ function App() {
     setTodos(updateTodos);
   }
 
+  function remaining() 
+  {
+    return todos.filter(todo => !todo.isComplete).length;
+  }
+
+  function clearCompleted()
+  {
+    setTodos([...todos].filter(todo => !todo.isComplete));
+  }
+
+  function completeAllTodos()
+  {
+    const updateTodos = todos.map(todo => {
+      todo.isComplete = true;
+
+      return todo;
+    });
+
+    setTodos(updateTodos);
+  }
+
   return (
     <div className="bg-emerald-50 h-screen pt-40">
       <div className="max-w-2xl mx-auto bg-white shadow-md rounded-md p-10">
@@ -117,13 +138,16 @@ function App() {
           <TodoForm addTodo={addTodo} />
           
           {todos.length > 0 ? (
-            <TodoList 
+            <TodoList
               todos={todos}
               completeTodo={completeTodo}
               markAsEditing={markAsEditing}
               updateTodo={updateTodo}
               cancelEdit={cancelEdit}
               deleteTodo={deleteTodo}
+              remaining={remaining}
+              clearCompleted={clearCompleted}
+              completeAllTodos={completeAllTodos}
               />
           ) : (
             <NoTodos />
