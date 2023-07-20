@@ -47,7 +47,7 @@ function App() {
       {
         id: idForTodo,
         title: todo,
-        photo: "https://picsum.photos/200/300?random=",
+        photo: "https://picsum.photos/200/300?random=" + Math.floor(Math.random() * 100),
         isCompleted: false,
       }
     ]);
